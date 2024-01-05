@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@ant-design/pro-components": "^2.6.43",
+    "@types/js-cookie": "^3.0.6",
     "antd": "^5.11.4",
+    "axios": "^1.6.3",
+    "js-cookie": "^3.0.5",
     "preact": "^10.19.1",
     "preact-router": "^4.1.2",
     "react-icons": "^4.12.0"

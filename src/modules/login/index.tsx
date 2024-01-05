@@ -14,21 +14,27 @@ import {
     ProFormText,
 } from '@ant-design/pro-components';
 import { Button, Divider, Space, Tabs, message, theme } from 'antd';
+import axios from 'axios';
 import { CSSProperties, useState } from 'preact/compat';
+import { ILogin } from './interfaces';
+import { saveTokens, saveUserInfoToLocal } from '../../utils/func';
 
 type LoginType =  'account';
-  
-const iconStyles: CSSProperties = {
-    color: 'rgba(0, 0, 0, 0.2)',
-    // color: 'white',
-    fontSize: '18px',
-    verticalAlign: 'middle',
-    cursor: 'pointer',
-};
   
 const Login = () => {
     const [loginType, setLoginType] = useState<LoginType>('account');
     const { token } = theme.useToken();
+
+    const login = async (username: string, password: string) => {
+      const res = await axios.post('http://localhost:3000/auth/login', {
+        username,
+        password,
+      });
+      const data: ILogin = res.data;
+      saveUserInfoToLocal(data.user);
+      saveTokens(data.tokens);
+    }
+
     return (
       <div
         style={{
@@ -92,6 +98,8 @@ const Login = () => {
                 <Button onClick={() => {
                   const username = props.form?.getFieldValue('username')
                   const password = props.form?.getFieldValue('password')
+
+                  login(username, password)
 
                   // Xử lý login API
                 }} className={`w-80`}>
